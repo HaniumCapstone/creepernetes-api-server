@@ -1,10 +1,10 @@
-name: FRONTEND-DEV CI/CD
+name: API-SERVER CI/CD
 
 on:
   push:
-    branches: ["main"]
+    branches: ['main']
   pull_request:
-    branches: ["main"]
+    branches: ['main']
 
 jobs:
   build:
@@ -17,16 +17,11 @@ jobs:
       - name: Install Dependencies
         uses: npm install
 
-      - name: React Build
-        uses: npm run build
+      - name: Test Unit
+        run: npm run test
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.REGISTRY_USER }}
-          password: ${{ secrets.REGISTRY_PW }}
-            DATE=$(date "+%y.%m.%d")
-            docker login -u ${{ secrets.REGISTRY_USER }} -p ${{ secrets.REGISTRY_PW }}
-            docker build -t ${{ secrets.REGISTRY_USER }}/initcloud_board:$DATE .
-            docker push ${{ secrets.REGISTRY_USER }}/initcloud_board:$DATE 
-            
+      - name: e2e Test
+        run: npm run test:e2e
+
+      - name: Nest Build
+        uses: npm run build

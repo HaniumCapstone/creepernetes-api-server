@@ -21,6 +21,13 @@ export class UserController {
     return this.userService.logout();
   }
 
+  // http://localhost/user/all
+  @Get('/all')
+  users() {
+    return this.userService.users();
+  }
+
+  // http://localhost/user/:uid/profile
   @Get(':uid/profile')
   profile(@Param('uid') uid: number) {
     return this.userService.profile(uid);
